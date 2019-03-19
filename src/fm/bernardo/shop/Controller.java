@@ -6,7 +6,6 @@ import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -21,71 +20,76 @@ import org.json.simple.parser.JSONParser;
 import java.awt.*;
 
 
-public final class Controller
-{
+public final class Controller {
 
-    static void login (final ActionEvent event, TextField username, PasswordField password) throws Exception
-    {
-        final Scene scene = ((Node) event.getSource()).getScene();
+    static void login(String username, String password) throws Exception {
 
         if (Main.isNullOrEmpty(username) || Main.isNullOrEmpty(password)) {
-            username = (TextField) scene.lookup("#loginUsername");
-            password = (PasswordField) scene.lookup("#loginPassword");
+            username = ((TextField) Main.mainScene.lookup("#loginUsername")).getText();
+            password = ((PasswordField) Main.mainScene.lookup("#loginPassword")).getText();
         }
 
-        if (Main.database.containsKey(username.getText()) && ((JSONObject) Main.database.get(username.getText())).get("password").equals(password.getText())) {
-            Main.loggedInAs = username.getText();
+        if (Main.database.containsKey(username) && ((JSONObject) Main.database.get(username)).get("password").equals(password)) {
+            Main.saveFile(Main.loginData, (JSONObject) new JSONParser().parse("{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}"));
+
+            Main.loggedInAs = username;
 
             Main.navigation.getChildren().clear();
             Main.navigation.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/navigationShop.fxml")));
-            Main.content.getChildren().clear();
-            Main.content.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/shopContent.fxml")));
-            ((Button) scene.lookup("#accountName")).setText(Main.loggedInAs);
-            ((AnchorPane) scene.lookup("#navigationShop")).prefWidthProperty().bind(scene.widthProperty());
+            Controller.loadShop();
+            ((Button) Main.mainScene.lookup("#accountName")).setText(Main.loggedInAs);
+            ((AnchorPane) Main.mainScene.lookup("#navigationShop")).prefWidthProperty().bind(Main.mainScene.widthProperty());
 
             Main.showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Sie wurden erfolgreich weitergeleitet und angemeldet.");
-        } else
+        } else {
             Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültige Anmeldedaten.");
+            Controller.logout();
+        }
     }
 
-    public final void loadLogin () throws Exception
-    {
+    private static void loadShop() throws Exception {
+        Main.content.getChildren().clear();
+        Main.mainStage.setTitle("Shop");
+        Main.content.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/shopContent.fxml")));
+    }
+
+    private static void logout() throws Exception {
+        Main.mainStage.close();
+        Main.loginData.delete();
+        new Main().start(new Stage(), Main.database);
+        Main.showAlert(Alert.AlertType.INFORMATION, "Information", "Sie wurden vom Konto abgemeldet.");
+    }
+
+    public final void loadLogin() throws Exception {
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Anmelden");
         Main.content.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/loginContent.fxml")));
     }
 
-    public final void loadRegister () throws Exception
-    {
+    public final void loadRegister() throws Exception {
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Registrierung");
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/registerContent.fxml")));
     }
 
-    public final void loadShop () throws Exception
-    {
-        Main.content.getChildren().clear();
-        Main.mainStage.setTitle("Shop");
-        Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/shopContent.fxml")));
+    public final void loadShop(final ActionEvent event) throws Exception {
+        loadShop();
     }
 
-    public final void loadCart () throws Exception
-    {
+    public final void loadCart() throws Exception {
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Bestellungen");
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/cartContent.fxml")));
     }
 
-    public final void loadInfo ()
-    {
+    public final void loadInfo() {
         Main.showAlert(Alert.AlertType.INFORMATION, "Information",
                 "Ersteller: " + Manifests.read("Creator") + "\n" +
                         "Letzte Änderung: " + Manifests.read("Last-Change") + "\n" +
                         "© 2019 BERNARDO.FM - Alle Rechte vorbehalten.");
     }
 
-    public final void accountClick (final ActionEvent event)
-    {
+    public final void accountClick(final ActionEvent event) {
         final Node button = (Node) event.getSource();
         final Bounds buttonBounds = button.getBoundsInLocal();
         final double centerX = buttonBounds.getMinX() + buttonBounds.getWidth() / 2, centerY = buttonBounds.getMinY() + buttonBounds.getHeight() / 2;
@@ -96,29 +100,23 @@ public final class Controller
         Event.fireEvent(button, contextEvent);
     }
 
-    public final void loadSettings () throws Exception
-    {
+    public final void loadSettings() throws Exception {
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Einstellungen");
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/settingsContent.fxml")));
     }
 
-    public final void login (final ActionEvent event) throws Exception
-    {
-        login(event, null, null);
+    public final void login() throws Exception {
+        login(null, null);
     }
 
-    public final void logout () throws Exception
-    {
-        Main.mainStage.close();
-        new Main().start(new Stage(), Main.database);
+    public final void logout(final ActionEvent event) throws Exception {
+        logout();
     }
 
-    public final void register (final ActionEvent event) throws Exception
-    {
-        final Scene scene = ((Node) event.getSource()).getScene();
-        final TextField username = (TextField) scene.lookup("#registerUsername");
-        final PasswordField password = (PasswordField) scene.lookup("#registerPassword"), passwordRepeat = (PasswordField) scene.lookup("#registerPasswordRepeat");
+    public final void register() throws Exception {
+        final TextField username = (TextField) Main.mainScene.lookup("#registerUsername");
+        final PasswordField password = (PasswordField) Main.mainScene.lookup("#registerPassword"), passwordRepeat = (PasswordField) Main.mainScene.lookup("#registerPasswordRepeat");
 
 
         if (username.getText().equals("") || password.getText().equals("") || passwordRepeat.getText().equals("")) {
@@ -151,7 +149,7 @@ public final class Controller
         } catch (final NullPointerException e) {
             Main.database.put(username.getText(), new JSONParser().parse("{\"password\": \"" + password.getText() + "\"}"));
             Main.showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Ihr Konto wurde erfolgreich erstellt.");
-            login(event, username, password);
+            login(username.getText(), password.getText());
         }
     }
 
