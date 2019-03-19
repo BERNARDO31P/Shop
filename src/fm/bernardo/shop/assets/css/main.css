@@ -1,0 +1,12 @@
+.buttons {
+    -fx-background-color: transparent;
+}
+
+.buttons:hover {
+    -fx-background-color: #e2e2e2;
+}
+
+.navBar {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 5, 0, 0, 0);
+}

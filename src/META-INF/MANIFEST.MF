@@ -1,0 +1,8 @@
+Manifest-Version: 1.0.1
+Main-Class: fm.bernardo.shop.Main
+Creator: Bernardo de Oliveira
+Application-Name: Shop
+Application-Description: Application to buy stuff
+Application-Version: 1.1
+JavaFX-Version: 2.0
+Last-Change: 19.03.2019 - 12:00
