@@ -11,7 +11,10 @@ import javafx.stage.Stage;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -22,7 +25,10 @@ public final class Main extends Application
     static JSONObject database;
     static String loggedInAs;
     static Stage mainStage;
-    private final static File databaseLocation = new File(System.getProperty("user.home") + File.separator + ".kn04" + File.separator + ".shopDatabase.json");
+    private static final String programData = System.getProperty("user.home") + File.separator + ".kn04" + File.separator;
+    private final static File databaseLocation = new File(Main.programData + ".shopDatabase.json"),
+            settingsLocation = new File(Main.programData + "user" + File.separator + "settings.json"),
+            loginData = new File(Main.programData + "user" + File.separator + ".user.txt");
 
     static void showAlert (final Alert.AlertType type, final String title, final String text)
     {
@@ -31,6 +37,18 @@ public final class Main extends Application
         alert.setHeaderText(null);
         alert.setContentText(text);
         alert.showAndWait();
+    }
+
+    static void saveFile (final File fileLocation, final JSONObject data) throws Exception
+    {
+        try {
+            final FileWriter file = new FileWriter(fileLocation);
+            file.write(data.toJSONString());
+            file.flush();
+        } catch (final FileNotFoundException e) {
+            Files.createDirectories(Paths.get(fileLocation.getParent()));
+            saveFile(fileLocation, data);
+        }
     }
 
     static boolean isNullOrEmpty (final Object object)
@@ -61,12 +79,10 @@ public final class Main extends Application
 
         Main.navigation.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/navigationStart.fxml")));
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/loginContent.fxml")));
-
         ((AnchorPane) root.lookup("#navigationStart")).prefWidthProperty().bind(root.widthProperty());
 
         Main.mainStage.setScene(root);
         Main.mainStage.setResizable(false);
-        Main.mainStage.setTitle("Shop");
         Main.mainStage.getIcons().add(new Image(getClass().getResourceAsStream("assets/img/icon.png")));
         Main.mainStage.show();
     }
@@ -74,14 +90,7 @@ public final class Main extends Application
     @Override
     public final void stop () throws Exception
     {
-        try {
-            final FileWriter file = new FileWriter(Main.databaseLocation);
-            file.write(Main.database.toJSONString());
-            file.flush();
-        } catch (final FileNotFoundException e) {
-            Files.createDirectories(Paths.get(Main.databaseLocation.getParent()));
-            stop();
-        }
+        saveFile(Main.databaseLocation, Main.database);
     }
 
     public static void main (final String[] args)

@@ -1,15 +1,15 @@
 package fm.bernardo.shop;
 
 import com.jcabi.manifests.Manifests;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.PickResult;
@@ -24,34 +24,56 @@ import java.awt.*;
 public final class Controller
 {
 
+    static void login (final ActionEvent event, TextField username, PasswordField password) throws Exception
+    {
+        final Scene scene = ((Node) event.getSource()).getScene();
+
+        if (Main.isNullOrEmpty(username) || Main.isNullOrEmpty(password)) {
+            username = (TextField) scene.lookup("#loginUsername");
+            password = (PasswordField) scene.lookup("#loginPassword");
+        }
+
+        if (Main.database.containsKey(username.getText()) && ((JSONObject) Main.database.get(username.getText())).get("password").equals(password.getText())) {
+            Main.loggedInAs = username.getText();
+
+            Main.navigation.getChildren().clear();
+            Main.navigation.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/navigationShop.fxml")));
+            Main.content.getChildren().clear();
+            Main.content.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/shopContent.fxml")));
+            ((Button) scene.lookup("#accountName")).setText(Main.loggedInAs);
+            ((AnchorPane) scene.lookup("#navigationShop")).prefWidthProperty().bind(scene.widthProperty());
+
+            Main.showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Sie wurden erfolgreich weitergeleitet und angemeldet.");
+        } else
+            Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültige Anmeldedaten.");
+    }
+
     public final void loadLogin () throws Exception
     {
         Main.content.getChildren().clear();
-        Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/loginContent.fxml")));
+        Main.mainStage.setTitle("Anmelden");
+        Main.content.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/loginContent.fxml")));
     }
 
     public final void loadRegister () throws Exception
     {
         Main.content.getChildren().clear();
+        Main.mainStage.setTitle("Registrierung");
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/registerContent.fxml")));
     }
 
     public final void loadShop () throws Exception
     {
         Main.content.getChildren().clear();
+        Main.mainStage.setTitle("Shop");
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/shopContent.fxml")));
     }
 
     public final void loadCart () throws Exception
     {
         Main.content.getChildren().clear();
+        Main.mainStage.setTitle("Bestellungen");
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/cartContent.fxml")));
-    }
-
-    public final void loadSettings () throws Exception
-    {
-        Main.content.getChildren().clear();
-        Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/settingsContent.fxml")));
     }
 
     public final void loadInfo ()
@@ -74,28 +96,11 @@ public final class Controller
         Event.fireEvent(button, contextEvent);
     }
 
-    private void login (final ActionEvent event, TextField username, PasswordField password) throws Exception
+    public final void loadSettings () throws Exception
     {
-        final Scene scene = ((Node) event.getSource()).getScene();
-
-        if (Main.isNullOrEmpty(username) || Main.isNullOrEmpty(password)) {
-            username = (TextField) scene.lookup("#loginUsername");
-            password = (PasswordField) scene.lookup("#loginPassword");
-        }
-
-        if (Main.database.containsKey(username.getText()) && ((JSONObject) Main.database.get(username.getText())).get("password").equals(password.getText())) {
-            Main.loggedInAs = username.getText();
-
-            Main.navigation.getChildren().clear();
-            Main.navigation.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/navigationShop.fxml")));
-            Main.content.getChildren().clear();
-            Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/shopContent.fxml")));
-            ((Button) scene.lookup("#accountName")).setText(Main.loggedInAs);
-            ((AnchorPane) scene.lookup("#navigationShop")).prefWidthProperty().bind(scene.widthProperty());
-
-            Main.showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Sie wurden erfolgreich weitergeleitet und angemeldet.");
-        } else
-            Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültige Anmeldedaten.");
+        Main.content.getChildren().clear();
+        Main.mainStage.setTitle("Einstellungen");
+        Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/settingsContent.fxml")));
     }
 
     public final void login (final ActionEvent event) throws Exception
