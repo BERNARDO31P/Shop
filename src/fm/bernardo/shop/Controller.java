@@ -43,8 +43,11 @@ public final class Controller {
             Main.showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Sie wurden erfolgreich weitergeleitet und angemeldet.");
         } else {
             Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültige Anmeldedaten.");
-            Controller.logout();
         }
+    }
+
+    public final void login() throws Exception {
+        login(null, null);
     }
 
     private static void loadShop() throws Exception {
@@ -53,11 +56,19 @@ public final class Controller {
         Main.content.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/shopContent.fxml")));
     }
 
+    public final void loadShop(final ActionEvent event) throws Exception {
+        loadShop();
+    }
+
     private static void logout() throws Exception {
         Main.mainStage.close();
         Main.loginData.delete();
         new Main().start(new Stage(), Main.database);
         Main.showAlert(Alert.AlertType.INFORMATION, "Information", "Sie wurden vom Konto abgemeldet.");
+    }
+
+    public final void logout(final ActionEvent event) throws Exception {
+        logout();
     }
 
     public final void loadLogin() throws Exception {
@@ -70,10 +81,6 @@ public final class Controller {
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Registrierung");
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/registerContent.fxml")));
-    }
-
-    public final void loadShop(final ActionEvent event) throws Exception {
-        loadShop();
     }
 
     public final void loadCart() throws Exception {
@@ -106,12 +113,8 @@ public final class Controller {
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/settingsContent.fxml")));
     }
 
-    public final void login() throws Exception {
-        login(null, null);
-    }
+    public final void saveSettings() {
 
-    public final void logout(final ActionEvent event) throws Exception {
-        logout();
     }
 
     public final void register() throws Exception {

@@ -21,14 +21,14 @@ import java.nio.file.Paths;
 public final class Main extends Application {
 
     static Pane navigation, content;
-    static JSONObject database;
+    private final static String programData = System.getProperty("user.home") + File.separator + ".kn04" + File.separator;
     static String loggedInAs;
     static Stage mainStage;
+    final static File loginData = new File(Main.programData + "user" + File.separator + ".user.txt");
     private final static File databaseLocation = new File(Main.programData + ".shopDatabase.json"),
             settingsLocation = new File(Main.programData + "user" + File.separator + "settings.json");
-    private static final String programData = System.getProperty("user.home") + File.separator + ".kn04" + File.separator;
+    static JSONObject database, settings;
     static Scene mainScene;
-    static File loginData = new File(Main.programData + "user" + File.separator + ".user.txt");
 
     static void showAlert(final Alert.AlertType type, final String title, final String text) {
         final Alert alert = new Alert(type);
@@ -49,7 +49,7 @@ public final class Main extends Application {
         }
     }
 
-    static JSONObject loadFile(final File fileLocation) throws Exception {
+    private JSONObject loadFile(final File fileLocation) throws Exception {
         JSONObject data;
         try {
             data = (JSONObject) new JSONParser().parse(new FileReader(fileLocation));
@@ -69,7 +69,8 @@ public final class Main extends Application {
 
     @Override
     public final void start(final Stage stage) throws Exception {
-        Main.database = Main.loadFile(Main.databaseLocation);
+        Main.database = this.loadFile(Main.databaseLocation);
+        Main.settings = this.loadFile(Main.settingsLocation);
         start(stage, database);
     }
 
