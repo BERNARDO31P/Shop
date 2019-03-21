@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.172-ea"
@@ -24,11 +23,29 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
         </rowConstraints>
         <children>
-            <PasswordField alignment="CENTER" promptText="Jetziges Passwort" GridPane.columnIndex="1"/>
-            <PasswordField alignment="CENTER" promptText="Passwort" GridPane.columnIndex="2"/>
-            <PasswordField alignment="CENTER" promptText="Passwort wiederholen" GridPane.columnIndex="3"/>
+            <Label text="Falls Sie das Passwort nicht ändern wollen, können Sie diesen Punkt freilassen."
+                   GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER"
+                   GridPane.valignment="CENTER"/>
+            <PasswordField fx:id="settingsCurrentPassword" alignment="CENTER" promptText="Jetziges Passwort"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <PasswordField fx:id="settingsPassword" alignment="CENTER" promptText="Passwort" GridPane.columnIndex="2"
+                           GridPane.rowIndex="1"/>
+            <PasswordField fx:id="settingsPasswordRepeat" alignment="CENTER" promptText="Passwort wiederholen"
+                           GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+            <Label text="Angemeldet bleiben" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3"
+                   GridPane.valignment="CENTER"/>
+            <CheckBox fx:id="stayLoggedIn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                      GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="CENTER"/>
+            <Label text="Dialoge anzeigen" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4"
+                   GridPane.valignment="CENTER"/>
+            <CheckBox fx:id="showAlerts" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="4"
+                      GridPane.valignment="CENTER"/>
         </children>
     </GridPane>
+    <Button mnemonicParsing="false" onAction="#saveSettings" text="Speichern" AnchorPane.bottomAnchor="50.0"
+            AnchorPane.rightAnchor="100.0"/>
 </AnchorPane>

@@ -1,15 +1,15 @@
 package fm.bernardo.shop;
 
 import com.jcabi.manifests.Manifests;
+import fm.bernardo.shop.assets.classes.showAlert;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
@@ -40,9 +40,9 @@ public final class Controller {
             ((Button) Main.mainScene.lookup("#accountName")).setText(Main.loggedInAs);
             ((AnchorPane) Main.mainScene.lookup("#navigationShop")).prefWidthProperty().bind(Main.mainScene.widthProperty());
 
-            Main.showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Sie wurden erfolgreich weitergeleitet und angemeldet.");
+            new showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Sie wurden erfolgreich weitergeleitet und angemeldet.");
         } else {
-            Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültige Anmeldedaten.");
+            new showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültige Anmeldedaten.");
         }
     }
 
@@ -64,7 +64,7 @@ public final class Controller {
         Main.mainStage.close();
         Main.loginData.delete();
         new Main().start(new Stage(), Main.database);
-        Main.showAlert(Alert.AlertType.INFORMATION, "Information", "Sie wurden vom Konto abgemeldet.");
+        new showAlert(Alert.AlertType.INFORMATION, "Information", "Sie wurden vom Konto abgemeldet.");
     }
 
     public final void logout(final ActionEvent event) throws Exception {
@@ -90,7 +90,7 @@ public final class Controller {
     }
 
     public final void loadInfo() {
-        Main.showAlert(Alert.AlertType.INFORMATION, "Information",
+        new showAlert(Alert.AlertType.INFORMATION, "Information",
                 "Ersteller: " + Manifests.read("Creator") + "\n" +
                         "Letzte Änderung: " + Manifests.read("Last-Change") + "\n" +
                         "© 2019 BERNARDO.FM - Alle Rechte vorbehalten.");
@@ -107,52 +107,79 @@ public final class Controller {
         Event.fireEvent(button, contextEvent);
     }
 
+    public final void saveSettings() throws Exception {
+        final String currentPassword = ((PasswordField) Main.content.lookup("#settingsCurrentPassword")).getText(),
+                password = ((PasswordField) Main.content.lookup("#settingsPassword")).getText(),
+                passwordRepeat = ((PasswordField) Main.content.lookup("#settingsPasswordRepeat")).getText();
+        final CheckBox stayLoggedIn = (CheckBox) Main.content.lookup("#stayLoggedIn"),
+                showAlerts = (CheckBox) Main.content.lookup("#showAlerts");
+
+
+        if ((password.equals("") && !currentPassword.equals("")) || passwordRepeat.equals("") && !currentPassword.equals("")) {
+            new showAlert(Alert.AlertType.ERROR, "Fehler", "Es wurden nicht alle Passwortfelder ausgefüllt.");
+            return;
+        } else {
+            if (!((JSONObject) Main.database.get(Main.loggedInAs)).get("password").equals(currentPassword) && !password.equals("")) {
+                new showAlert(Alert.AlertType.ERROR, "Fehler", "Das alte Passwort ist falsch.");
+                return;
+            } else if (!password.equals("")) {
+                final JSONObject data = (JSONObject) Main.database.get(Main.loggedInAs);
+                data.replace("password", password);
+                Main.database.replace(Main.loggedInAs, data);
+            }
+        }
+
+        Main.settings.put(Main.loggedInAs, new JSONParser().parse("{\"stayLoggedIn\": \"" + stayLoggedIn.isSelected() + "\", \"showAlerts\": \"" + showAlerts.isSelected() + "\"}"));
+
+        new showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Die Einstellungen wurden übernommen.", true);
+    }
+
     public final void loadSettings() throws Exception {
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Einstellungen");
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/settingsContent.fxml")));
-    }
 
-    public final void saveSettings() {
-
+        ((CheckBox) Main.content.lookup("#stayLoggedIn")).setSelected(Boolean.parseBoolean(((JSONObject) Main.settings.get(Main.loggedInAs)).get("stayLoggedIn").toString()));
+        ((CheckBox) Main.content.lookup("#showAlerts")).setSelected(Boolean.parseBoolean(((JSONObject) Main.settings.get(Main.loggedInAs)).get("showAlerts").toString()));
     }
 
     public final void register() throws Exception {
-        final TextField username = (TextField) Main.mainScene.lookup("#registerUsername");
-        final PasswordField password = (PasswordField) Main.mainScene.lookup("#registerPassword"), passwordRepeat = (PasswordField) Main.mainScene.lookup("#registerPasswordRepeat");
+        final String username = ((TextField) Main.mainScene.lookup("#registerUsername")).getText(),
+                password = ((PasswordField) Main.mainScene.lookup("#registerPassword")).getText(),
+                passwordRepeat = ((PasswordField) Main.mainScene.lookup("#registerPasswordRepeat")).getText();
 
 
-        if (username.getText().equals("") || password.getText().equals("") || passwordRepeat.getText().equals("")) {
-            Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Sie müssen alle Felder ausfüllen.");
+        if (username.equals("") || password.equals("") || passwordRepeat.equals("")) {
+            new showAlert(Alert.AlertType.ERROR, "Fehler", "Sie müssen alle Felder ausfüllen.");
             return;
         }
 
-        if (!username.getText().matches("[a-zA-Z0-9]*")) {
-            Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Der Benutzername darf keine Sonderzeichen enthalten.");
+        if (!username.matches("[a-zA-Z0-9]*")) {
+            new showAlert(Alert.AlertType.ERROR, "Fehler", "Der Benutzername darf keine Sonderzeichen enthalten.");
             return;
         }
 
-        if (!password.getText().equals(passwordRepeat.getText())) {
-            Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Die Passwörter stimmen nicht überein.");
+        if (!password.equals(passwordRepeat)) {
+            new showAlert(Alert.AlertType.ERROR, "Fehler", "Die Passwörter stimmen nicht überein.");
             return;
         }
 
-        if (password.getText().length() < 8) {
-            Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Das Passwort ist zu schwach.");
+        if (password.length() < 8) {
+            new showAlert(Alert.AlertType.ERROR, "Fehler", "Das Passwort ist zu schwach.");
             return;
         }
 
         try {
-            if (Main.database.containsKey(username.getText())) {
-                Main.showAlert(Alert.AlertType.ERROR, "Fehler", "Dieser Benutzername wird bereits verwendet.");
+            if (Main.database.containsKey(username)) {
+                new showAlert(Alert.AlertType.ERROR, "Fehler", "Dieser Benutzername wird bereits verwendet.");
                 return;
             }
 
             throw new NullPointerException();
         } catch (final NullPointerException e) {
-            Main.database.put(username.getText(), new JSONParser().parse("{\"password\": \"" + password.getText() + "\"}"));
-            Main.showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Ihr Konto wurde erfolgreich erstellt.");
-            login(username.getText(), password.getText());
+            Main.database.put(username, new JSONParser().parse("{\"password\": \"" + password + "\"}"));
+            new showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Ihr Konto wurde erfolgreich erstellt.");
+            login(username, password);
         }
     }
 

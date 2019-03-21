@@ -1,12 +1,14 @@
 package fm.bernardo.shop;
 
+import com.jcabi.manifests.Manifests;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,23 +22,18 @@ import java.nio.file.Paths;
 
 public final class Main extends Application {
 
-    static Pane navigation, content;
+    public static String loggedInAs;
+    public static JSONObject settings;
     private final static String programData = System.getProperty("user.home") + File.separator + ".kn04" + File.separator;
-    static String loggedInAs;
+    static Pane navigation;
     static Stage mainStage;
     final static File loginData = new File(Main.programData + "user" + File.separator + ".user.txt");
     private final static File databaseLocation = new File(Main.programData + ".shopDatabase.json"),
             settingsLocation = new File(Main.programData + "user" + File.separator + "settings.json");
-    static JSONObject database, settings;
+    static StackPane content;
+    static JSONObject database;
     static Scene mainScene;
 
-    static void showAlert(final Alert.AlertType type, final String title, final String text) {
-        final Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
-    }
 
     static void saveFile(final File fileLocation, final JSONObject data) throws Exception {
         try {
@@ -79,7 +76,7 @@ public final class Main extends Application {
 
 
         Main.navigation = (Pane) Main.mainScene.lookup("#navigationRoot");
-        Main.content = (Pane) Main.mainScene.lookup("#contentRoot");
+        Main.content = (StackPane) Main.mainScene.lookup("#contentRoot");
         Main.mainStage = stage;
         Main.database = database;
 
@@ -91,9 +88,10 @@ public final class Main extends Application {
         Main.navigation.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/navigationStart.fxml")));
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/loginContent.fxml")));
         ((AnchorPane) Main.mainScene.lookup("#navigationStart")).prefWidthProperty().bind(Main.mainScene.widthProperty());
+        ((Label) Main.mainScene.lookup("#version")).setText("v" + Manifests.read("Application-Version"));
 
         final JSONObject data = loadFile(Main.loginData);
-        if (data.get("username") != null)
+        if (data.get("username") != null && ((JSONObject) Main.settings.get(data.get("username").toString())).get("stayLoggedIn").equals("true"))
             Controller.login(data.get("username").toString(), data.get("password").toString());
 
         Main.mainStage.show();
@@ -102,6 +100,7 @@ public final class Main extends Application {
     @Override
     public final void stop() throws Exception {
         saveFile(Main.databaseLocation, Main.database);
+        saveFile(Main.settingsLocation, Main.settings);
     }
 
 }

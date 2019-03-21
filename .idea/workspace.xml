@@ -6,11 +6,14 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="- Updated the structure of the whole program.&#10;- Changed the login system. &#10;- Enabled automatic login after closing the program.&#10;- Improved overall speed.&#10;- Minor bug fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/shop_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/shop_jar.xml" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="- Fixed a fatal crash">
+      <change afterPath="$PROJECT_DIR$/src/fm/bernardo/shop/assets/classes/showAlert.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fm/bernardo/shop/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fm/bernardo/shop/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fm/bernardo/shop/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fm/bernardo/shop/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/settingsContent.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/settingsContent.fxml" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,13 +70,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="72" column="61" selection-start-line="72" selection-start-column="61" selection-end-line="72" selection-end-column="61" />
+            <state relative-caret-position="-536">
+              <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#2182#2183#0" expanded="true" />
+                <element signature="e#2262#2263#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -82,11 +86,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="44" column="87" selection-start-line="44" selection-start-column="87" selection-end-line="44" selection-end-column="87" />
+            <state relative-caret-position="-101">
+              <caret line="126" column="22" selection-start-line="126" selection-start-column="22" selection-end-line="126" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -98,6 +111,7 @@
       <list>
         <option value="CSS File" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -129,7 +143,6 @@
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/FXML/navigationStart.fxml" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/FXML/shopContent.fxml" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/FXML/navigationShop.fxml" />
-        <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/main.fxml" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/shopContent.fxml" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/cartContent.fxml" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/css/main.css" />
@@ -138,19 +151,23 @@
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/loginContent.fxml" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/registerContent.fxml" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/navigationStart.fxml" />
+        <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/main.fxml" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/settingsContent.fxml" />
-        <option value="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/Controller.java" />
+        <option value="$PROJECT_DIR$/src/fm/bernardo/shop/assets/classes/showAlert.java" />
         <option value="$PROJECT_DIR$/src/fm/bernardo/shop/Main.java" />
+        <option value="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="1280" />
+    <option name="width" value="2560" />
     <option name="height" value="1399" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
@@ -189,6 +206,14 @@
               <item name="shop" type="b2602c69:ProjectViewProjectNode" />
               <item name="shop" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="shop" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="fxml" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shop" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shop" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="META-INF" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -212,7 +237,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553174307421" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553181981628" />
     <property name="dynamic.classpath" value="false" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop" />
@@ -342,7 +367,7 @@
       <workItem from="1553022302856" duration="83000" />
       <workItem from="1553024962504" duration="4252000" />
       <workItem from="1553029272557" duration="535000" />
-      <workItem from="1553171736561" duration="2207000" />
+      <workItem from="1553171736561" duration="10042000" />
     </task>
     <task id="LOCAL-00001" summary="- Updated the structure of the whole program.&#10;- Changed the login system. &#10;- Enabled automatic login after closing the program.&#10;- Improved overall speed.&#10;- Minor bug fixes">
       <created>1553029210322</created>
@@ -351,11 +376,18 @@
       <option name="project" value="LOCAL" />
       <updated>1553029210323</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="- Fixed a fatal crash">
+      <created>1553174366239</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1553174366239</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57766000" />
+    <option name="totallyTimeSpent" value="65601000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2560" height="1399" extended-state="6" />
@@ -406,7 +438,8 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <MESSAGE value="- Updated the structure of the whole program.&#10;- Changed the login system. &#10;- Enabled automatic login after closing the program.&#10;- Improved overall speed.&#10;- Minor bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Updated the structure of the whole program.&#10;- Changed the login system. &#10;- Enabled automatic login after closing the program.&#10;- Improved overall speed.&#10;- Minor bug fixes" />
+    <MESSAGE value="- Fixed a fatal crash" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Fixed a fatal crash" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -418,14 +451,6 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/FXML/navigation.fxml" />
     <entry file="file://$PROJECT_DIR$/src/lib/hamcrest-core-1.1.jar/org/hamcrest/core/Is.java" />
-    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/main.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_192/javafx-src.zip!/com/sun/glass/ui/InvokeLaterDispatcher.java" />
     <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/shopContent.fxml">
       <provider selected="true" editor-type-id="text-editor">
@@ -450,30 +475,6 @@
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/navigationShop.fxml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="19" column="51" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/loginContent.fxml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/registerContent.fxml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/navigationStart.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
@@ -482,13 +483,24 @@
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/settingsContent.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="20" column="48" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+    <entry file="file://$PROJECT_DIR$/shop.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/navigationShop.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="51" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/main.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
@@ -500,20 +512,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shop.iml">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/settingsContent.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
+    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/loginContent.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/classes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+        <state relative-caret-position="30">
+          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/Controller.java">
+    <entry file="jar:///usr/lib/jvm/java-8-openjdk/jre/lib/ext/jfxrt.jar!/javafx/scene/control/Alert.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="44" column="87" selection-start-line="44" selection-start-column="87" selection-end-line="44" selection-end-column="87" />
+        <state relative-caret-position="255">
+          <caret line="30" column="11" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
+          <folding>
+            <element signature="e#1139#1140#0" expanded="true" />
+            <element signature="e#1174#1175#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/classes/showAlert.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -522,11 +558,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="72" column="61" selection-start-line="72" selection-start-column="61" selection-end-line="72" selection-end-column="61" />
+        <state relative-caret-position="-536">
+          <caret line="17" column="26" lean-forward="true" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+          <folding>
+            <element signature="e#2182#2183#0" expanded="true" />
+            <element signature="e#2262#2263#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/assets/fxml/registerContent.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fm/bernardo/shop/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-101">
+          <caret line="126" column="22" selection-start-line="126" selection-start-column="22" selection-end-line="126" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
         </state>
       </provider>
     </entry>
