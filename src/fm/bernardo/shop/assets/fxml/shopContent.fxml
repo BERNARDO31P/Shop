@@ -28,6 +28,6 @@
          <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
       </padding>
    </ScrollPane>
-   <Button fx:id="order" mnemonicParsing="false" text="Kaufen" AnchorPane.bottomAnchor="50.0"
+   <Button mnemonicParsing="false" onAction="#order" text="Kaufen" AnchorPane.bottomAnchor="50.0"
            AnchorPane.rightAnchor="100.0"/>
 </AnchorPane>

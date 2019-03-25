@@ -151,7 +151,7 @@ public final class Controller
         new showAlert(Alert.AlertType.INFORMATION, "Information",
                 "Ersteller: " + Manifests.read("Creator") + "\n" +
                         "Letzte Änderung: " + Manifests.read("Last-Change") + "\n" +
-                        "© 2019 BERNARDO.FM - Alle Rechte vorbehalten.");
+                        "© 2019 BERNARDO.FM - Alle Rechte vorbehalten.", true);
     }
 
     public final void accountClick (final ActionEvent event)

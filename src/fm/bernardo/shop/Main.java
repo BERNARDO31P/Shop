@@ -58,7 +58,7 @@ public final class Main extends Application
         launch(args);
     }
 
-    static JSONObject loadFile (final File fileLocation) throws Exception
+    private static JSONObject loadFile (final File fileLocation) throws Exception
     {
         JSONObject data;
         try {
