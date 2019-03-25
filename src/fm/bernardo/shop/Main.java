@@ -20,14 +20,15 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public final class Main extends Application {
+public final class Main extends Application
+{
 
     public static String loggedInAs;
     public static JSONObject settings;
     private final static String programData = System.getProperty("user.home") + File.separator + ".kn04" + File.separator;
     static Pane navigation;
     static Stage mainStage;
-    final static File loginData = new File(Main.programData + "user" + File.separator + ".user.txt");
+    final static File loginData = new File(Main.programData + "user" + File.separator + ".user.json");
     private final static File databaseLocation = new File(Main.programData + ".shopDatabase.json"),
             settingsLocation = new File(Main.programData + "user" + File.separator + "settings.json");
     static StackPane content;
@@ -35,7 +36,8 @@ public final class Main extends Application {
     static Scene mainScene;
 
 
-    static void saveFile(final File fileLocation, final JSONObject data) throws Exception {
+    static void saveFile (final File fileLocation, final JSONObject data) throws Exception
+    {
         try {
             final FileWriter file = new FileWriter(fileLocation);
             file.write(data.toJSONString());
@@ -46,7 +48,18 @@ public final class Main extends Application {
         }
     }
 
-    private JSONObject loadFile(final File fileLocation) throws Exception {
+    static boolean isNullOrEmpty (final Object object)
+    {
+        return object == null;
+    }
+
+    public static void main (final String[] args)
+    {
+        launch(args);
+    }
+
+    private JSONObject loadFile (final File fileLocation) throws Exception
+    {
         JSONObject data;
         try {
             data = (JSONObject) new JSONParser().parse(new FileReader(fileLocation));
@@ -56,22 +69,16 @@ public final class Main extends Application {
         return data;
     }
 
-    static boolean isNullOrEmpty(final Object object) {
-        return object == null;
-    }
-
-    public static void main(final String[] args) {
-        launch(args);
-    }
-
     @Override
-    public final void start(final Stage stage) throws Exception {
+    public final void start (final Stage stage) throws Exception
+    {
         Main.database = this.loadFile(Main.databaseLocation);
         Main.settings = this.loadFile(Main.settingsLocation);
         start(stage, database);
     }
 
-    final void start(final Stage stage, final JSONObject database) throws Exception {
+    final void start (final Stage stage, final JSONObject database) throws Exception
+    {
         Main.mainScene = new Scene(FXMLLoader.load(getClass().getResource("assets/fxml/main.fxml")));
 
 
@@ -91,14 +98,19 @@ public final class Main extends Application {
         ((Label) Main.mainScene.lookup("#version")).setText("v" + Manifests.read("Application-Version"));
 
         final JSONObject data = loadFile(Main.loginData);
-        if (data.get("username") != null && ((JSONObject) Main.settings.get(data.get("username").toString())).get("stayLoggedIn").equals("true"))
-            Controller.login(data.get("username").toString(), data.get("password").toString());
+
+        try {
+            if (data.get("username") != null && ((JSONObject) Main.settings.get(data.get("username").toString())).get("stayLoggedIn").equals("true"))
+                Controller.login(data.get("username").toString(), data.get("password").toString());
+        } catch (final Exception ignored) {
+        }
 
         Main.mainStage.show();
     }
 
     @Override
-    public final void stop() throws Exception {
+    public final void stop () throws Exception
+    {
         saveFile(Main.databaseLocation, Main.database);
         saveFile(Main.settingsLocation, Main.settings);
     }
