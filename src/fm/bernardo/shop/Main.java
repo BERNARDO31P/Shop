@@ -100,7 +100,7 @@ public final class Main extends Application
         final JSONObject data = loadFile(Main.loginData);
 
         try {
-            if (data.get("username") != null && ((JSONObject) Main.settings.get(data.get("username").toString())).get("stayLoggedIn").equals("true"))
+            if (!Main.isNullOrEmpty(data.get("username")) && ((JSONObject) Main.settings.get(data.get("username").toString())).get("stayLoggedIn").equals("true"))
                 Controller.login(data.get("username").toString(), data.get("password").toString());
         } catch (final Exception ignored) {
         }
