@@ -22,6 +22,7 @@ import org.json.simple.parser.JSONParser;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public final class Controller
@@ -57,11 +58,17 @@ public final class Controller
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Shop");
         Main.content.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/shopContent.fxml")));
-        final ArrayList<String> data = new ArrayList<String>()
+        final ArrayList<HashMap> data = new ArrayList<HashMap>()
         {
             {
-                add("Minecraft");
-                add("Minesnens");
+                add(new HashMap<String, String>()
+                {{
+                    put("Kaffeebohnen 1Kg", "18.80");
+                }});
+                add(new HashMap<String, String>()
+                {{
+                    put("Lipton Icetea 1L", "3.40");
+                }});
             }
         };
 
@@ -72,7 +79,19 @@ public final class Controller
             final GridPane grid = ((GridPane) Main.mainScene.lookup("#shopContent"));
             Platform.runLater(() -> {
                 for (int row = 0; row < data.size(); row++) {
-                    grid.add(new Label(data.get(row)), 0, row);
+                    final int finalRow = row;
+                    data.get(row).forEach((key, value) -> {
+                        grid.add(new Label(key.toString()), 0, finalRow);
+                        grid.add(new Label(value.toString() + " CHF"), 1, finalRow);
+
+                        final TextField numField = new TextField();
+                        numField.textProperty().addListener((observable, oldValue, newValue) -> {
+                            if (!newValue.matches("\\d*"))
+                                numField.setText(newValue.replaceAll("[^\\d]", ""));
+                        });
+
+                        grid.add(numField, 2, finalRow);
+                    });
                 }
             });
         }).start();
@@ -99,6 +118,11 @@ public final class Controller
     public final void logout (final ActionEvent event) throws Exception
     {
         logout();
+    }
+
+    public final void order ()
+    {
+
     }
 
     public final void loadLogin () throws Exception
