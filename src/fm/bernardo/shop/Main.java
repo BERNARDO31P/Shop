@@ -58,7 +58,7 @@ public final class Main extends Application
         launch(args);
     }
 
-    private JSONObject loadFile (final File fileLocation) throws Exception
+    static JSONObject loadFile (final File fileLocation) throws Exception
     {
         JSONObject data;
         try {
@@ -72,8 +72,8 @@ public final class Main extends Application
     @Override
     public final void start (final Stage stage) throws Exception
     {
-        Main.database = this.loadFile(Main.databaseLocation);
-        Main.settings = this.loadFile(Main.settingsLocation);
+        Main.database = Main.loadFile(Main.databaseLocation);
+        Main.settings = Main.loadFile(Main.settingsLocation);
         start(stage, database);
     }
 

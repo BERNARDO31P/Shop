@@ -2,22 +2,26 @@ package fm.bernardo.shop;
 
 import com.jcabi.manifests.Manifests;
 import fm.bernardo.shop.assets.classes.showAlert;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public final class Controller
@@ -53,14 +57,25 @@ public final class Controller
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Shop");
         Main.content.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/shopContent.fxml")));
-    }
+        final ArrayList<String> data = new ArrayList<String>()
+        {
+            {
+                add("Minecraft");
+                add("Minesnens");
+            }
+        };
 
-    private static void logout () throws Exception
-    {
-        Main.mainStage.close();
-        Main.loginData.delete();
-        new Main().start(new Stage(), Main.database);
-        new showAlert(Alert.AlertType.INFORMATION, "Information", "Sie wurden vom Konto abgemeldet.");
+        new Thread(() -> {
+            while (Main.isNullOrEmpty(Main.mainScene.lookup("#shopContent"))) {
+            }
+
+            final GridPane grid = ((GridPane) Main.mainScene.lookup("#shopContent"));
+            Platform.runLater(() -> {
+                for (int row = 0; row < data.size(); row++) {
+                    grid.add(new Label(data.get(row)), 0, row);
+                }
+            });
+        }).start();
     }
 
     public final void login () throws Exception
@@ -71,6 +86,14 @@ public final class Controller
     public final void loadShop (final ActionEvent event) throws Exception
     {
         loadShop();
+    }
+
+    private static void logout () throws Exception
+    {
+        Main.mainStage.close();
+        Main.loginData.delete();
+        new Main().start(new Stage(), Main.database);
+        new showAlert(Alert.AlertType.INFORMATION, "Information", "Sie wurden vom Konto abgemeldet.");
     }
 
     public final void logout (final ActionEvent event) throws Exception
