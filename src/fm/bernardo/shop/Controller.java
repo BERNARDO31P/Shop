@@ -80,9 +80,9 @@ public final class Controller
             Platform.runLater(() -> {
                 for (int row = 0; row < data.size(); row++) {
                     final int finalRow = row;
-                    data.get(row).forEach((key, value) -> {
-                        grid.add(new Label(key.toString()), 0, finalRow);
-                        grid.add(new Label(value.toString() + " CHF"), 1, finalRow);
+                    data.get(finalRow).forEach((key, value) -> {
+                        grid.add(new Label(key.toString()), 0, finalRow + 1);
+                        grid.add(new Label(value.toString() + " CHF"), 1, finalRow + 1);
 
                         final TextField numField = new TextField();
                         numField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -90,7 +90,7 @@ public final class Controller
                                 numField.setText(newValue.replaceAll("[^\\d]", ""));
                         });
 
-                        grid.add(numField, 2, finalRow);
+                        grid.add(numField, 2, finalRow + 1);
                     });
                 }
             });
