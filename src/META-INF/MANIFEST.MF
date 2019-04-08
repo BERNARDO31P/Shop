@@ -3,6 +3,6 @@ Main-Class: fm.bernardo.shop.Main
 Creator: Bernardo de Oliveira
 Application-Name: Shop
 Application-Description: Application to buy stuff
-Application-Version: 1.5.1
+Application-Version: 1.5.2
 JavaFX-Version: 2.0
-Last-Change: 08. April 2019 - 12:15
+Last-Change: 08. April 2019 - 13:40
