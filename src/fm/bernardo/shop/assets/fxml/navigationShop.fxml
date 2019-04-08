@@ -20,7 +20,7 @@
         </rowConstraints>
         <Button mnemonicParsing="false" onAction="#loadShop" styleClass="buttons" text="Shop"
                 GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
-        <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#loadCart" styleClass="buttons"
+        <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#loadOrders" styleClass="buttons"
                 text="Bestellungen" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
         <Button mnemonicParsing="false" onAction="#loadInfo" styleClass="buttons" text="Info" GridPane.columnIndex="5"
                 GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>

@@ -21,14 +21,30 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 public final class Controller
 {
 
     private static JSONObject userData;
+    private static ArrayList<HashMap> products = new ArrayList<HashMap>()
+    {
+        {
+            add(new HashMap<String, String>()
+            {{
+                put("Kaffeebohnen 1Kg", "18.80");
+            }});
+            add(new HashMap<String, String>()
+            {{
+                put("Lipton Icetea 1L", "3.40");
+            }});
+        }
+    };
 
     static void login (String username, String password) throws Exception
     {
@@ -61,28 +77,16 @@ public final class Controller
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Shop");
         Main.content.getChildren().add(FXMLLoader.load(Main.class.getResource("assets/fxml/shopContent.fxml")));
-        final ArrayList<HashMap> data = new ArrayList<HashMap>()
-        {
-            {
-                add(new HashMap<String, String>()
-                {{
-                    put("Kaffeebohnen 1Kg", "18.80");
-                }});
-                add(new HashMap<String, String>()
-                {{
-                    put("Lipton Icetea 1L", "3.40");
-                }});
-            }
-        };
+
 
         new Thread(() -> {
             while (Main.isNullOrEmpty(Main.mainScene.lookup("#shopContent"))) ;
 
             final GridPane grid = ((GridPane) Main.mainScene.lookup("#shopContent"));
             Platform.runLater(() -> {
-                for (int row = 0; row < data.size(); row++) {
+                for (int row = 0; row < Controller.products.size(); row++) {
                     final int finalRow = row;
-                    data.get(finalRow).forEach((key, value) -> {
+                    Controller.products.get(finalRow).forEach((key, value) -> {
                         grid.add(new Label(key.toString()), 0, finalRow + 1);
                         grid.add(new Label(value.toString() + " CHF"), 1, finalRow + 1);
 
@@ -122,7 +126,7 @@ public final class Controller
         logout();
     }
 
-    public final void order ()
+    public final void order () throws Exception
     {
         final GridPane content = (GridPane) Main.mainScene.lookup("#shopContent");
         final JSONObject order = new JSONObject();
@@ -130,15 +134,13 @@ public final class Controller
         try {
             for (int i = 1; i < getRowCount(content); i++)
                 order.put(((Label) content.getChildren().get(i * 3)).getText(), Integer.parseInt(((TextField) content.getChildren().get(i * 3 + 2)).getText()));
-            ((JSONObject) Controller.userData.get("orders")).put(System.currentTimeMillis() / 1000, order);
-            Main.database.replace(Main.loggedInAs, Controller.userData);
-        } catch (final Exception ignored) {
+            ((JSONObject) Controller.userData.get("orders")).put(System.currentTimeMillis(), order);
+        } catch (final NullPointerException e) {
+            Controller.userData.put("orders", new JSONParser().parse("{\"" + System.currentTimeMillis() + "\": " + order + "}"));
         }
-    }
 
-    public final void loadOrders ()
-    {
-
+        Main.database.replace(Main.loggedInAs, Controller.userData);
+        new showAlert(Alert.AlertType.INFORMATION, "Information", "Die Bestellung wurde aufgenommen.");
     }
 
     public final void loadLogin () throws Exception
@@ -155,11 +157,38 @@ public final class Controller
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/registerContent.fxml")));
     }
 
-    public final void loadCart () throws Exception
+    public final void loadOrders () throws Exception
     {
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Bestellungen");
         Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/orderContent.fxml")));
+
+        final JSONObject orders = (JSONObject) Controller.userData.get("orders");
+
+        try {
+            final List<String> indexes = new ArrayList<String>(orders.keySet());
+
+            new Thread(() -> {
+                while (Main.isNullOrEmpty(Main.mainScene.lookup("#orderContent"))) ;
+                final GridPane content = (GridPane) Main.mainScene.lookup("#orderContent");
+
+                Platform.runLater(() -> {
+                    int i = 0, j = 0;
+                    while (i < orders.size()) {
+                        content.add(new Label(new SimpleDateFormat("dd.MM.yy // hh:mm").format(new Date(Long.parseLong(indexes.get(i))))), 0, j + 1);
+                        final List<String> articles = new ArrayList<String>(((JSONObject) orders.get(indexes.get(i))).keySet());
+                        for (final String article : articles) {
+                            content.add(new Label(article), 1, j + 1);
+                            content.add(new Label(((JSONObject) orders.get(indexes.get(i))).get(article).toString()), 2, j + 1);
+                            j++;
+                        }
+                        i++;
+                    }
+                });
+            }).start();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public final void loadInfo ()
@@ -174,9 +203,8 @@ public final class Controller
     {
         final Node button = (Node) event.getSource();
         final Bounds buttonBounds = button.getBoundsInLocal();
-        final double centerX = buttonBounds.getMinX() + buttonBounds.getWidth() / 2, centerY = buttonBounds.getMinY() + buttonBounds.getHeight() / 2;
         final Point p = MouseInfo.getPointerInfo().getLocation();
-        final double x = p.getX(), y = p.getY();
+        final double centerX = buttonBounds.getMinX() + buttonBounds.getWidth() / 2, centerY = buttonBounds.getMinY() + buttonBounds.getHeight() / 2, x = p.getX(), y = p.getY();
 
         final Event contextEvent = new ContextMenuEvent(ContextMenuEvent.CONTEXT_MENU_REQUESTED, centerX, centerY, x, y, false, new PickResult(button, x, y));
         Event.fireEvent(button, contextEvent);
