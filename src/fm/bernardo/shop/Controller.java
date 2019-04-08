@@ -128,12 +128,8 @@ public final class Controller
         final JSONObject order = new JSONObject();
 
         try {
-            for (int i = 1; i < getRowCount(content); i++) {
-                final String productName = ((Label) content.getChildren().get(i * 3)).getText();
-                final int count = Integer.parseInt(((TextField) content.getChildren().get(i * 3 + 2)).getText());
-                order.put(productName, count);
-
-            }
+            for (int i = 1; i < getRowCount(content); i++)
+                order.put(((Label) content.getChildren().get(i * 3)).getText(), Integer.parseInt(((TextField) content.getChildren().get(i * 3 + 2)).getText()));
             ((JSONObject) Controller.userData.get("orders")).put(System.currentTimeMillis() / 1000, order);
             Main.database.replace(Main.loggedInAs, Controller.userData);
         } catch (final Exception ignored) {
