@@ -44,7 +44,7 @@ public final class Main extends Application
             file.flush();
         } catch (final FileNotFoundException e) {
             Files.createDirectories(Paths.get(fileLocation.getParent()));
-            saveFile(fileLocation, data);
+            Main.saveFile(fileLocation, data);
         }
     }
 
@@ -111,8 +111,8 @@ public final class Main extends Application
     @Override
     public final void stop () throws Exception
     {
-        saveFile(Main.databaseLocation, Main.database);
-        saveFile(Main.settingsLocation, Main.settings);
+        Main.saveFile(Main.databaseLocation, Main.database);
+        Main.saveFile(Main.settingsLocation, Main.settings);
     }
 
 }

@@ -28,6 +28,8 @@ import java.util.HashMap;
 public final class Controller
 {
 
+    private static JSONObject userData;
+
     static void login (String username, String password) throws Exception
     {
 
@@ -47,6 +49,7 @@ public final class Controller
             ((Button) Main.mainScene.lookup("#accountName")).setText(Main.loggedInAs);
             ((AnchorPane) Main.mainScene.lookup("#navigationShop")).prefWidthProperty().bind(Main.mainScene.widthProperty());
 
+            Controller.userData = (JSONObject) Main.database.get(Main.loggedInAs);
             new showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Sie wurden erfolgreich weitergeleitet und angemeldet.");
         } else {
             new showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültige Anmeldedaten.");
@@ -73,8 +76,7 @@ public final class Controller
         };
 
         new Thread(() -> {
-            while (Main.isNullOrEmpty(Main.mainScene.lookup("#shopContent"))) {
-            }
+            while (Main.isNullOrEmpty(Main.mainScene.lookup("#shopContent"))) ;
 
             final GridPane grid = ((GridPane) Main.mainScene.lookup("#shopContent"));
             Platform.runLater(() -> {
@@ -122,6 +124,24 @@ public final class Controller
 
     public final void order ()
     {
+        final GridPane content = (GridPane) Main.mainScene.lookup("#shopContent");
+        final JSONObject order = new JSONObject();
+
+        try {
+            for (int i = 1; i < getRowCount(content); i++) {
+                final String productName = ((Label) content.getChildren().get(i * 3)).getText();
+                final int count = Integer.parseInt(((TextField) content.getChildren().get(i * 3 + 2)).getText());
+                order.put(productName, count);
+
+            }
+            ((JSONObject) Controller.userData.get("orders")).put(System.currentTimeMillis() / 1000, order);
+            Main.database.replace(Main.loggedInAs, Controller.userData);
+        } catch (final Exception ignored) {
+        }
+    }
+
+    public final void loadOrders ()
+    {
 
     }
 
@@ -143,7 +163,7 @@ public final class Controller
     {
         Main.content.getChildren().clear();
         Main.mainStage.setTitle("Bestellungen");
-        Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/cartContent.fxml")));
+        Main.content.getChildren().add(FXMLLoader.load(getClass().getResource("assets/fxml/orderContent.fxml")));
     }
 
     public final void loadInfo ()
@@ -183,9 +203,8 @@ public final class Controller
                 new showAlert(Alert.AlertType.ERROR, "Fehler", "Das alte Passwort ist falsch.");
                 return;
             } else if (!password.equals("")) {
-                final JSONObject data = (JSONObject) Main.database.get(Main.loggedInAs);
-                data.replace("password", password);
-                Main.database.replace(Main.loggedInAs, data);
+                Controller.userData.replace("password", password);
+                Main.database.replace(Main.loggedInAs, Controller.userData);
             }
         }
 
@@ -246,6 +265,21 @@ public final class Controller
             new showAlert(Alert.AlertType.INFORMATION, "Erfolgreich", "Ihr Konto wurde erfolgreich erstellt.");
             login(username, password);
         }
+    }
+
+    private int getRowCount (final GridPane pane)
+    {
+        int numRows = pane.getRowConstraints().size();
+        for (int i = 0; i < pane.getChildren().size(); i++) {
+            final Node child = pane.getChildren().get(i);
+            if (child.isManaged()) {
+                final Integer rowIndex = GridPane.getRowIndex(child);
+                if (rowIndex != null) {
+                    numRows = Math.max(numRows, rowIndex + 1);
+                }
+            }
+        }
+        return numRows;
     }
 
 }

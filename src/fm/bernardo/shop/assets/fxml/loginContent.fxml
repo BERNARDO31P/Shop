@@ -6,15 +6,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fm.bernardo.shop.Controller">
-   <Label alignment="CENTER" text="Anmeldung" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="20.0">
-      <font>
-         <Font size="24.0" />
-      </font>
-   </Label>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            fx:controller="fm.bernardo.shop.Controller">
+    <Label alignment="CENTER" text="Anmeldung" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0"
+           AnchorPane.topAnchor="20.0">
+        <font>
+            <Font size="24.0"/>
+        </font>
+    </Label>
     <TextField fx:id="loginUsername" alignment="CENTER" onAction="#login" prefWidth="350.0" promptText="Nutzername"
                AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="65.0"/>
     <PasswordField fx:id="loginPassword" alignment="CENTER" onAction="#login" promptText="Passwort"
                    AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="95.0"/>
-    <Button mnemonicParsing="false" onAction="#login" text="Senden" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="100.0" />
+    <Button mnemonicParsing="false" onAction="#login" text="Senden" AnchorPane.bottomAnchor="50.0"
+            AnchorPane.rightAnchor="100.0"/>
 </AnchorPane>
